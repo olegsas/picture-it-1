@@ -12,8 +12,8 @@ module.exports = {
         if (req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, function (result) {
                 if (result.url) {
-                    req.imageLink = result.url
-                    next();
+                    req.imageLink = result.url;
+                    res.status(201).json(result.url)
                 } else {
                     res.json(error);
                 }

@@ -1,20 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 
-multiparty = require('connect-multiparty'),
-multipartyMiddleware = multiparty({ uploadDir: 'client/uploads' }),
+const multiparty = require('connect-multiparty'),
+multipartyMiddleware = multiparty({ uploadDir: 'client/uploads' })
 
-module.exports = function (app, multer) {
+const cloudinary = require('../controllers/cloudinary');
+
+module.exports = function (app) {
     app.get('/images', getImages);
-    app.post('/image', multipartyMiddleware, uploadImage);
+    app.post('/image', multipartyMiddleware, cloudinary.uploadImage);
 }
 
 function getImages(request, response) {
     const images = [];
     fs.readdir('./client/uploads', (err, files) => {
-        files.forEach(file => {
-            images.push(file)
-        });
+        if (files && files.length > 0)
+            files.forEach(file => {
+                images.push(file)
+            });
         response.json(images)
     })
 }

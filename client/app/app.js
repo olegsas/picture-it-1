@@ -1,6 +1,7 @@
 angular.module('app', [
     'app.home',
     'app.about',
+    'app.auth',
     'ui.router',
     'ngAnimate',
     'thatisuday.ng-image-gallery',
@@ -28,10 +29,16 @@ angular.module('app', [
                 templateUrl: 'templates/about.html',
                 controller: 'aboutCtrl'
             })
+            .state('/register', {
+                url: '/register',
+                templateUrl: 'templates/register.html',
+                controller: 'authCtrl'
+            })
+            .state('/login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: 'authCtrl'
+            })
 
     }
 ])
-
-// .controller('homeController', function($scope){
-//     $scope.message = 'Hello World';
-// });

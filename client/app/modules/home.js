@@ -4,10 +4,18 @@ angular.module('app.home', ['ui.router', 'ngFileUpload'])
     $scope.methods = {};
     $scope.images = [];
 
+    $scope.$watch('images', () => {
+        console.log($scope.images)
+    })
+
     $scope.$watch('file', function () {
         if ($scope.file != null) {
             Upload.upload({ url: '/image', data: { image: $scope.file } })
-                .then(res => $scope.images.push({url: 'uploads/' +res.data}));
+                .then(res => {
+                    console.log(res)
+                    if (res.status = 200)
+                        $scope.images.push({url: res.data})
+                } );
         }
     });
 

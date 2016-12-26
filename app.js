@@ -6,10 +6,15 @@ const express = require('express'),
       session = require('express-session'),
       favicon = require('serve-favicon'),
       bodyParser = require('body-parser'),
-      logger = require('morgan');
-      multer = require('multer');
+      logger = require('morgan'),
+      mongoose = require('mongoose');
+      passport = require('passport');
 
 const config = require('./config');
+
+// IMPORT DB
+require('./models/db');
+require('./config/passport');
 
 // CREATING EXPRESS
 const app = express();
@@ -22,7 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(logger('dev'));
 // IMPORTING ROUTES
-require('./routes/home-routes.js')(app, multer);
+require('./routes/home-routes.js')(app);
+require('./routes/authentication-routes.js')(app);
 
 // SERVER STATIC FOLDER
 app.use(express.static(path.join(__dirname, '/client')));
