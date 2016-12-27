@@ -4,7 +4,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GitHubStrategy = require('passport-github').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const configAuth = require('./auth');
+const configAuth = require('./auth-config');
 
 passport.use(new LocalStrategy({
 		usernameField: 'email'
@@ -50,8 +50,6 @@ passport.use(new GitHubStrategy({
 				} else {
 					// if there is no user found with that facebook id, create them
 					let newUser = new User();
-
-					console.log(profile);
 
 					// set all of the facebook information in our user model
 					newUser.github.id = profile.id; // set the users facebook id                   

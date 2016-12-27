@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
 	local: {
 		email: {
 			type: String,
@@ -36,7 +37,8 @@ const userSchema = new mongoose.Schema({
 		name: {
 			type: String
 		}
-	}
+	},
+	images: [{ type: Schema.Types.ObjectId, ref: 'Image' }]
 
 });
 

@@ -1,6 +1,6 @@
-const passport = require('passport');
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+const passport = require('passport'),
+	  mongoose = require('mongoose'),
+	  User = mongoose.model('User');
 
 const sendJSONresponse = function (res, status, content) {
 	res.status(status);
@@ -19,13 +19,15 @@ module.exports.register = function (req, res) {
 	user.local.name = req.body.name;
 	user.local.email = req.body.email;
 	user.setPassword(req.body.password);
-	user.save(function (err) {
+	user.save(function (err, response) {
 		let token;
 
 		if (err) {
 			sendJSONresponse(res, 404, err);
 		} else {
 			token = user.generateJwt();
+			req.session._id = response._doc._id;
+			req.session.token = token;
 			sendJSONresponse(res, 200, {
 				"token": token
 			});
@@ -48,6 +50,8 @@ module.exports.login = function (req, res) {
 		}
 		if (user) {
 			token = user.generateJwt();
+			req.session._id = user._doc._id;
+			req.session.token = token;
 			sendJSONresponse(res, 200, {
 				"token": token
 			});

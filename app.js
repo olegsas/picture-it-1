@@ -10,11 +10,11 @@ const express = require('express'),
       mongoose = require('mongoose');
       passport = require('passport');
 
-const config = require('./config');
+const config = require('./server/config/server-config');
 
-// IMPORT DB
-require('./models/db');
-require('./config/passport');
+// IMPORT DB DATA
+require('./server/models/db');
+require('./server/config/passport-config');
 
 // CREATING EXPRESS
 const app = express();
@@ -26,13 +26,15 @@ app.use(favicon(__dirname + '/client/assets/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(logger('dev'));
-// IMPORTING ROUTES
-require('./routes/home-routes.js')(app);
-require('./routes/authentication-routes.js')(app);
 
-// SERVER STATIC FOLDER
+// IMPORTING ROUTES
+require('./server/routes/home-routes.js')(app);
+require('./server/routes/authentication-routes.js')(app);
+
+// SERVE STATIC FOLDER
 app.use(express.static(path.join(__dirname, '/client')));
 
+// SERVE INDEX.HTML
 app.get('/', function(req, res) {
     res.sendFile('./client/index.html');
 });

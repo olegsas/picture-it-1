@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const dbURI = require('../config').mongoUri;
+const dbURI = require('../config/server-config').mongoUri;
 
 mongoose.connect(dbURI);
 
@@ -14,3 +14,4 @@ mongoose.connection.on('disconnected', function () {
 });
 
 require('./users');
+require('./images');

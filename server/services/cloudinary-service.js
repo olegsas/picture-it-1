@@ -1,4 +1,6 @@
 const cloudinary = require('cloudinary');
+const mongoose = require('mongoose');
+const Image = mongoose.model('Image');
 
 cloudinary.config({
     cloud_name: 'da14clfqg',
@@ -12,8 +14,13 @@ module.exports = {
         if (req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, function (result) {
                 if (result.url) {
-                    req.imageLink = result.url
-                    next();
+                    // req.imageLink = result.url;
+                    let image = new Image();
+                    image.url = result.url;
+                    image._owner = req.session._id;
+                    image.save((err, response) => {
+                        res.status(201).json(result.url)
+                    })
                 } else {
                     res.json(error);
                 }

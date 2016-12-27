@@ -1,4 +1,4 @@
-angular.module('app.about', ['ui.router'])
+angular.module('app.about', [])
 
 .controller('aboutCtrl', function($scope) {
     $scope.message = 'Hello World';
